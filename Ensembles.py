@@ -53,3 +53,23 @@ for i in range (100):
 
 print("mse: ", mse/len(e))
 print("mae: ", mae/len(e))
+
+#random attribute selection
+mse, mae = 0, 0 
+e = []
+
+for i in range (100):
+  model =  DecisionTreeRegressor()
+  a = np.random.choice([False, True], X_train.shape[1])
+  model.fit(X_train[:,a],y_train)
+
+  e.append(model)
+
+  pred = model.predict(X_test[:,a])
+  mse += mean_squared_error(pred,y_test)
+  mae += mean_absolute_error(pred,y_test)
+
+
+
+print("mse: ", mse/len(e))
+print("mae: ", mae/len(e))
