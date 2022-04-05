@@ -18,6 +18,7 @@ y = np.mean(data[:,15:],axis=1)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=4361)
 
+#random splitting
 mse, mae = 0, 0 
 e = []
   
@@ -32,5 +33,23 @@ for i in range (100):
 
   e.append(model)
   
+print("mse: ", mse/len(e))
+print("mae: ", mae/len(e))
+
+#bagging
+mse, mae = 0, 0 
+e = []
+
+for i in range (100):
+  model =  DecisionTreeRegressor()
+  a = np.random.randint(0, X_train.shape[0], X_train.shape[0])
+  model.fit(X_train[a], y_train[a])
+  pred = model.predict(X_test)
+
+  mse += mean_squared_error(pred,y_test)
+  mae += mean_absolute_error(pred,y_test)
+
+  e.append(model)
+
 print("mse: ", mse/len(e))
 print("mae: ", mae/len(e))
